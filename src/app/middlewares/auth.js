@@ -3,10 +3,10 @@ import { promisify } from 'util';
 import authConf from '../../config/auth';
 
 export default async (req, res, next) => {
-  const authHeader = req.header.autorization;
+  const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: authHeader });
   }
 
   const [, token] = authHeader.split(' ');
@@ -17,6 +17,5 @@ export default async (req, res, next) => {
   } catch (error) {
     return res.status(401).json({ error: 'Invalid token' });
   }
-
-  return next;
+  return next();
 };
